@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kev.eclnLogisticsBot.service.BotService;
 
@@ -25,9 +24,6 @@ public class Bot extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        SendMessage m = new SendMessage();
-        m.setChatId(update.getMessage().getChatId());
-        m.setText(botService.getName());
-        execute(m);
+        execute(botService.getAnswer(this, update));
     }
 }
