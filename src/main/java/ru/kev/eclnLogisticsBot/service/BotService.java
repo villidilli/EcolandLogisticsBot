@@ -1,5 +1,6 @@
 package ru.kev.eclnLogisticsBot.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -8,12 +9,16 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kev.eclnLogisticsBot.controller.Bot;
+import ru.kev.eclnLogisticsBot.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BotService {
+    private final UserService userService;
+
     Update lastUpd = null;
     Update curUpd = null;
     String lastMsg = null;
@@ -62,6 +67,7 @@ public class BotService {
                 bot.execute(collectAnswer(chatId, "Введите ваш ИНН и нажмите *Проверить*:", kb));
                 break;
             case "/acceptPassword": // TODO
+                userService.saveUser()
                 bot.execute(collectAnswer(chatId, "Вы успешно авторизованы, как сотрудник *Эколенд*\nВыберите")); break;
             case "/acceptINN": // TODO
                 bot.execute(collectAnswer(chatId, "Вы ввели ИНН: " + curMsg)); break;
