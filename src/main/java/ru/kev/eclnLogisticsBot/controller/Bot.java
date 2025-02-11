@@ -1,5 +1,6 @@
 package ru.kev.eclnLogisticsBot.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+
 public class Bot extends TelegramLongPollingBot {
     private final BotService botService;
 
-    @SneakyThrows
     public Bot(@Value("${bot.token}") String botToken) {
         super(botToken);
         this.botService = new BotService();
@@ -33,6 +34,5 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         botService.getAnswer(this, update);
-
     }
 }
