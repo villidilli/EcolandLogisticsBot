@@ -1,28 +1,21 @@
 package ru.kev.eclnLogisticsBot.controller;
 
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
-import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import ru.kev.eclnLogisticsBot.service.BotService;
-
-import java.util.ArrayList;
-import java.util.List;
+import ru.kev.eclnLogisticsBot.service.impl.BotServiceImpl;
+import ru.kev.eclnLogisticsBot.service.UserService;
 
 @Component
-
 public class Bot extends TelegramLongPollingBot {
     private final BotService botService;
 
-    public Bot(@Value("${bot.token}") String botToken) {
+    public Bot(@Value("${bot.token}") String botToken, BotService botService) {
         super(botToken);
-        this.botService = new BotService();
+        this.botService = botService;
     }
 
     @Override
@@ -33,6 +26,6 @@ public class Bot extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        botService.getAnswer(this, update);
+        botService.processMessage(update, this);
     }
 }

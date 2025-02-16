@@ -11,7 +11,7 @@ import ru.kev.eclnLogisticsBot.controller.Bot;
 public class BotConfiguration {
     @Bean
     public TelegramBotsApi telegramBotsApi(Bot bot) throws TelegramApiException {
-        var api = new TelegramBotsApi(DefaultBotSession.class);
+        TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
         api.registerBot(bot);
         return api;
     }
